@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2018/12/09 21:00:00.000.076,C:\Users\Roby Edrian\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\Development\2018\Delphi\Img Proc\ImgProc.dproj</Transaction>
+    <Transaction>2018/12/09 21:00:00.000.877,C:\Users\Roby Edrian\Documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\Development\2018\Delphi\Img Proc\Main.dfm</Transaction>
+    <Transaction>2018/12/09 21:00:00.000.099,=C:\Users\Roby Edrian\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/12/09 21:00:00.000.877,C:\Users\Roby Edrian\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\Development\2018\Delphi\Img Proc\Main.pas</Transaction>
+  </Transactions>
+</BorlandProject>
