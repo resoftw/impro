@@ -111,9 +111,18 @@ object FMain: TFMain
       Top = 157
       Width = 137
       Height = 25
-      Caption = 'Gaussian Blur'
+      Caption = 'Average'
       TabOrder = 9
       OnClick = btngausblurClick
+    end
+    object btnmedian: TButton
+      Left = 8
+      Top = 188
+      Width = 137
+      Height = 25
+      Caption = 'Median'
+      TabOrder = 10
+      OnClick = btnmedianClick
     end
   end
   object img: TImage32

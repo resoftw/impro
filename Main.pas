@@ -46,6 +46,7 @@ type
     btnfillholes: TButton;
     btnprewitt: TButton;
     btngausblur: TButton;
+    btnmedian: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnloadClick(Sender: TObject);
     procedure btnbwClick(Sender: TObject);
@@ -58,6 +59,7 @@ type
     procedure btnfillholesClick(Sender: TObject);
     procedure btnprewittClick(Sender: TObject);
     procedure btngausblurClick(Sender: TObject);
+    procedure btnmedianClick(Sender: TObject);
   private
     { Private declarations }
     pic:TBitmap32;
@@ -66,6 +68,7 @@ type
     procedure RevertImage;
     procedure ResizeImage;
     function DiscreteConvultion3(mask:TIntMatrix3x3;mu,di,o:double):TBitmap32;
+    procedure Median(ww,wh:integer);
 //    function getstrel(n:integer):
   public
     { Public declarations }
@@ -91,6 +94,12 @@ begin
   end;
 end;
 
+
+procedure TFMain.btnmedianClick(Sender: TObject);
+begin
+  Median(5,5);
+  PlotImage(prd);
+end;
 
 procedure TFMain.btnprewittClick(Sender: TObject);
 var mask:TIntMAtrix3x3;
@@ -142,11 +151,11 @@ var mask:TIntMAtrix3x3;
     b1,b2:TBitmap32;
     x,y:integer;
 begin
-  mask[0,0]:=1;mask[0,1]:=1;mask[0,2]:=1;
-  mask[1,0]:=1;mask[1,1]:=1;mask[1,2]:=1;
-  mask[2,0]:=1;mask[2,1]:=1;mask[2,2]:=1;
-  var b0:=DiscreteConvultion3(mask,1,9,0);
-  prd.Assign(b0);
+//  mask[0,0]:=1;mask[0,1]:=1;mask[0,2]:=1;
+//  mask[1,0]:=1;mask[1,1]:=1;mask[1,2]:=1;
+//  mask[2,0]:=1;mask[2,1]:=1;mask[2,2]:=1;
+//  var b0:=DiscreteConvultion3(mask,1,9,0);
+//  prd.Assign(b0);
   mask[0,0]:=-1;mask[0,1]:=-2;mask[0,2]:=-1;
   mask[1,0]:=0;mask[1,1]:=0;mask[1,2]:=0;
   mask[2,0]:=1;mask[2,1]:=2;mask[2,2]:=1;
@@ -414,6 +423,63 @@ procedure TFMain.FormResize(Sender: TObject);
 begin
   img.Bitmap.SetSizeFrom(img);
   if not prd.Empty then PlotImage(prd);
+end;
+
+
+procedure QuickSort(var A: array of TColor32; iLo, iHi: Integer) ;
+var
+  Lo, Hi, Pivot, T: Integer;
+begin
+  Lo := iLo;
+  Hi := iHi;
+  Pivot := A[(Lo + Hi) div 2];
+  repeat
+    while (A[Lo] < Pivot)and (lo<ihi) do Inc(Lo) ;
+    while (A[Hi] > Pivot) and (hi>ilo) do Dec(Hi) ;
+    if Lo <= Hi then
+    begin
+      T := A[Lo];
+      A[Lo] := A[Hi];
+      A[Hi] := T;
+      Inc(Lo) ;
+      Dec(Hi) ;
+    end;
+  until Lo > Hi;
+  if Hi > iLo then QuickSort(A, iLo, Hi) ;
+  if Lo < iHi then QuickSort(A, Lo, iHi) ;
+end;
+
+procedure TFMain.Median(ww, wh: integer);
+var ar:Array of TColor32;
+    x,y,i,ex,ey,xx,yy:integer;
+    wx,wy:integer;
+    b:TBitmap32;
+begin
+  SetLength(ar,ww*wh);
+  b:=TBitmap32.Create;
+  b.SetSizeFrom(prd);
+  b.Clear;
+  ex:=ww div 2;
+  ey:=wh div 2;
+  for y:=0 to prd.Height-1 do begin
+    for x:=0 to prd.Width-1 do begin
+      i:=0;
+      for wy:=0 to wh-1 do begin
+        for wx:=0 to ww-1 do begin
+          xx:=x+wx-ex;
+          yy:=y+wy-ey;
+          if (xx<0) or (xx>=prd.Width) then continue;
+          if (yy<0) or (yy>=prd.Height) then continue;
+          ar[i]:=prd.Pixel[xx,yy];
+          inc(i);
+        end;
+      end;
+      QUickSort(ar,0,i-1);
+      b.Pixel[x,y]:=ar[i div 2];
+    end;
+  end;
+  prd.Assign(b);
+  b.Free;
 end;
 
 procedure TFMain.ResizeImage;
