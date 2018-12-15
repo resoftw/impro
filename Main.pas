@@ -426,7 +426,7 @@ begin
 end;
 
 
-procedure QuickSort(var A: array of TColor32; iLo, iHi: Integer) ;
+procedure QuickSort(var A: array of byte; iLo, iHi: Integer) ;
 var
   Lo, Hi, Pivot, T: Integer;
 begin
@@ -450,7 +450,7 @@ begin
 end;
 
 procedure TFMain.Median(ww, wh: integer);
-var ar:Array of TColor32;
+var ar:Array of byte;
     x,y,i,ex,ey,xx,yy:integer;
     wx,wy:integer;
     b:TBitmap32;
@@ -470,12 +470,14 @@ begin
           yy:=y+wy-ey;
           if (xx<0) or (xx>=prd.Width) then continue;
           if (yy<0) or (yy>=prd.Height) then continue;
-          ar[i]:=prd.Pixel[xx,yy];
+          var cp:=prd.Pixel[xx,yy];
+          var pc:=PColor32Entry(@cp);
+          ar[i]:=pc.R;
           inc(i);
         end;
       end;
       QUickSort(ar,0,i-1);
-      b.Pixel[x,y]:=ar[i div 2];
+      b.Pixel[x,y]:=bw(ar[i div 2]);
     end;
   end;
   prd.Assign(b);
