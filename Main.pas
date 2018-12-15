@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ExtDlgs, Vcl.StdCtrls,jpeg,GR32,System.generics.collections,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ExtDlgs, Vcl.StdCtrls,jpeg,GR32,System.generics.collections,pngimage,
   GR32_Image,GR32_Resamplers;
 
 type
@@ -97,7 +97,7 @@ end;
 
 procedure TFMain.btnmedianClick(Sender: TObject);
 begin
-  Median(5,5);
+  Median(3,3);
   PlotImage(prd);
 end;
 
